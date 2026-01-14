@@ -1,0 +1,115 @@
+<main class="main">
+
+  <div class="modal-backdrop" *ngIf="showConfirmModal">
+    <div class="modal" @modalAnimation>
+      <h3>Sei sicuro di voler eliminare questo esercizio?</h3>
+      <div class="modal-buttons">
+        <button class="btn btn-danger" (click)="deleteExerciseConfirmed()">Elimina</button>
+        <button class="btn btn-secondary" (click)="cancelDelete()">Annulla</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="content">
+
+    @if (editMode) {
+
+    <div class="edit-mode">
+      <h2 class="section-title">Modifica Esercizio</h2>
+
+      <div class="edit-grid">
+
+        <label>
+          Nome Esercizio
+          <input type="text" [(ngModel)]="exerciseToEdit.name" placeholder="Scrivi un nome" />
+        </label>
+
+        <label>
+          Gruppo Muscolare
+          <select [(ngModel)]="exerciseToEdit.muscleGroup">
+            <option value="" disabled>Seleziona un gruppo muscolare</option>
+            <option *ngFor="let group of muscleGroups" [value]="group">
+              {{ group }}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          Serie
+          <input type="number" [(ngModel)]="exerciseToEdit.sets" placeholder="Numero di serie" />
+        </label>
+
+        <label>
+          Ripetizioni
+          <input type="number" [(ngModel)]="exerciseToEdit.reps" placeholder="Numero di ripetizioni" />
+        </label>
+
+        <label>
+          Peso (kg)
+          <input type="number" [(ngModel)]="exerciseToEdit.weightKg" placeholder="Peso sollevato" />
+        </label>
+
+        <label class="full-width">
+          Note
+          <textarea [(ngModel)]="exerciseToEdit.notes" placeholder="Eventuali note"></textarea>
+        </label>
+
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" (click)="saveExercise()"> Salva</button>
+        <button class="btn btn-secondary" (click)="cancelEdit()"> Annulla</button>
+      </div>
+    </div>
+
+    } @else {
+
+    <div class="exercise-list">
+
+      <div class="button-container">
+        <button class="btn btn-primary add-btn" (click)="insertExercise()">
+          ╋
+        </button>
+      </div>
+
+      @for (item of exercises; track item.id) {
+
+      <div class="exercise-card">
+
+        <div class="card-header">
+          <h2>{{ item.name }}</h2>
+        </div>
+
+        <div class="card-body">
+          <p><strong>Gruppo muscolare:</strong> {{ item.muscleGroup }}</p>
+          <p>
+            <strong>Serie:</strong> {{ item.sets }}
+            |
+            <strong>Ripetizioni:</strong> {{ item.reps }}
+          </p>
+
+          @if (item.weightKg) {
+          <p><strong>Peso:</strong> {{ item.weightKg }} kg</p>
+          }
+
+          @if (item.notes) {
+          <p><strong>Note:</strong> {{ item.notes }}</p>
+          }
+        </div>
+
+        <div class="button-group card-buttons">
+          <button class="btn btn-outline" (click)="editExercise(item)"> Modifica</button>
+          <button class="btn btn-danger" (click)="confirmDeleteExercise(item.id)"> Elimina</button>
+        </div>
+
+      </div>
+
+      }
+
+    </div>
+
+    }
+
+  </div>
+</main>

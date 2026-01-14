@@ -1,0 +1,34 @@
+<main class="main">
+  <div class="content">
+
+
+    <div class="exercise-list">
+      <div class="exercise-card" *ngFor="let workout of workouts">
+
+        <div class="card-header">
+          <h2>{{ workout.name }}</h2>
+        </div>
+
+        <div class="card-body">
+          <p><strong>Esercizi ({{ workout.exercises.length }}):</strong></p>
+          <ul>
+            <li *ngFor="let ex of workout.exercises">
+              <span class="exercise-name">{{ ex.name }}</span>
+              <span class="exercise-details small">
+                ({{ ex.muscleGroup }} | 
+                {{ ex.sets }}x{{ ex.reps }} 
+                @ {{ ex.weightKg || 0 }} kg)
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="button-group card-buttons">
+          <button class="btn btn-danger" (click)="deleteWorkout(workout.id)"> Elimina</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>

@@ -1,0 +1,42 @@
+<header class="header">
+  <div class="header-content">
+
+    <h1 class="logo" routerLink="/exercises">
+      Gym<span>Planner</span>
+    </h1>
+
+    <nav class="nav">
+      <a
+        class="btn btn-outline"
+        routerLink="/exercises"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Esercizi
+      </a>
+
+      <a
+        class="btn btn-outline"
+        routerLink="/workout-dashboard"
+        routerLinkActive="active"
+      >
+        Schede
+      </a>
+
+      <a
+        class="btn btn-primary"
+        routerLink="/workout-editor"
+      >
+        + Nuova Scheda
+      </a>
+
+      <a
+        class="btn btn-primary"
+        routerLink="/muscle-group-chart"
+      >
+        Analisi Gruppi Muscolari
+      </a>
+    </nav>
+
+  </div>
+</header>

@@ -1,0 +1,224 @@
+<div class="chart-container">
+  <!-- Header con statistiche -->
+  <div class="chart-header" *ngIf="exercises && exercises.length > 0">
+    <div class="header-main">
+      <div class="title-section">
+        <div class="title-icon">💪</div>
+        <div>
+          <h2 class="chart-title">Analisi Gruppi Muscolari</h2>
+          <p class="chart-subtitle">Distribuzione degli esercizi per area di allenamento</p>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-box primary">
+          <div class="stat-icon">📊</div>
+          <div class="stat-content">
+            <div class="stat-value">{{ totalExercises }}</div>
+            <div class="stat-label">Esercizi Totali</div>
+          </div>
+        </div>
+        
+        <div class="stat-box secondary">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-content">
+            <div class="stat-value">{{ uniqueMuscleGroups }}</div>
+            <div class="stat-label">Gruppi Muscolari</div>
+          </div>
+        </div>
+        
+        <div class="stat-box accent">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-content">
+            <div class="stat-value">{{ mostTrainedMuscle }}</div>
+            <div class="stat-label">Più Allenato</div>
+            <div class="stat-subvalue">{{ mostTrainedCount }} esercizi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Controlli del grafico -->
+    <div class="chart-controls" *ngIf="hasData">
+      <button class="control-btn" (click)="toggleChartType()">
+        <span class="control-icon">{{ isDoughnut ? '🥧' : '🍩' }}</span>
+        {{ isDoughnut ? 'Grafico a Torta' : 'Grafico a Ciambella' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Grafico SVG principale -->
+  <div *ngIf="hasData" class="chart-main">
+    <div class="chart-wrapper">
+      <svg [attr.width]="svgSize" [attr.height]="svgSize" class="pie-chart-svg">
+        <!-- Fette del grafico -->
+        <g *ngFor="let slice of chartData; let i = index">
+          <path
+            [attr.d]="slice.pathData"
+            [attr.fill]="slice.color"
+            stroke="#ffffff"
+            stroke-width="2"
+            class="chart-slice">
+          </path>
+          
+          <!-- Etichette percentuali (solo se percentuale >= 5%) -->
+          <text
+            *ngIf="slice.percentage >= 5"
+            [attr.x]="slice.labelX"
+            [attr.y]="slice.labelY"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            fill="#ffffff"
+            font-weight="bold"
+            font-size="14"
+            class="percentage-label">
+            {{ slice.percentage }}%
+          </text>
+        </g>
+        
+        <!-- Centro per ciambella -->
+        <circle
+          *ngIf="isDoughnut"
+          [attr.cx]="center"
+          [attr.cy]="center"
+          [attr.r]="innerRadius - 10"
+          fill="#ffffff"
+          stroke="#e5e7eb"
+          stroke-width="1">
+        </circle>
+        
+        <!-- Totale al centro (solo per ciambella) -->
+        <text
+          *ngIf="isDoughnut"
+          [attr.x]="center"
+          [attr.y]="center"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="#065f46"
+          font-weight="bold"
+          font-size="24"
+          class="center-total">
+          {{ totalExercises }}
+        </text>
+        <text
+          *ngIf="isDoughnut"
+          [attr.x]="center"
+          [attr.y]="center + 20"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="#6b7280"
+          font-size="12"
+          class="center-label">
+          esercizi
+        </text>
+      </svg>
+      
+      <!-- Legenda colori -->
+      <div class="legend-container" *ngIf="hasData">
+        <div class="legend-title">Legenda</div>
+        <div class="legend-items">
+          <div *ngFor="let item of chartData; let i = index" class="legend-item">
+            <span class="legend-color" [style.background]="item.color"></span>
+            <span class="legend-name">{{ item.name }}</span>
+            <span class="legend-value">{{ item.value }} ({{ item.percentage }}%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tabella dati dettagliata -->
+    <div class="data-table-container" *ngIf="hasData">
+      <h3 class="table-title">Dettaglio per Gruppo Muscolare</h3>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Gruppo Muscolare</th>
+              <th>Esercizi</th>
+              <th>Percentuale</th>
+              <th>Distribuzione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of chartData; let i = index" [class.highlighted]="i === 0">
+              <td class="muscle-name">
+                <span class="color-indicator" [style.background]="item.color"></span>
+                {{ item.name }}
+              </td>
+              <td class="exercise-count">
+                <strong>{{ item.value }}</strong>
+                <span class="count-label">esercizi</span>
+              </td>
+              <td class="percentage">
+                <div class="percentage-value">{{ item.percentage }}%</div>
+              </td>
+              <td class="distribution">
+                <div class="bar-container">
+                  <div class="bar-fill" 
+                       [style.width]="item.percentage + '%'"
+                       [style.background]="item.color">
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="table-footer">
+                <div class="footer-content">
+                  <span>Totale: {{ totalExercises }} esercizi</span>
+                  <span>•</span>
+                  <span>{{ uniqueMuscleGroups }} gruppi muscolari</span>
+                  <span>•</span>
+                  <span>Ultimo aggiornamento: {{ currentDate | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stato vuoto -->
+  <div *ngIf="!hasData" class="empty-state">
+    <div class="empty-illustration">
+      <div class="empty-icon">🏋️‍♂️</div>
+      <div class="empty-waves">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+      </div>
+    </div>
+    
+    <div class="empty-content">
+      <h3 class="empty-title" *ngIf="exercises && exercises.length > 0">Nessun Gruppo Muscolare Rilevato</h3>
+      <h3 class="empty-title" *ngIf="!exercises || exercises.length === 0">Nessun Esercizio Disponibile</h3>
+      
+      <p class="empty-message" *ngIf="exercises && exercises.length > 0">
+        Gli esercizi presenti non hanno un gruppo muscolare assegnato.
+        Assicurati che ogni esercizio abbia impostato il campo "muscleGroup".
+      </p>
+      
+      <p class="empty-message" *ngIf="!exercises || exercises.length === 0">
+        Aggiungi alcuni esercizi per visualizzare l'analisi dei gruppi muscolari.
+        Il grafico mostrerà la distribuzione degli esercizi tra le diverse aree di allenamento.
+      </p>
+      
+      <div class="empty-tips">
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>Assicurati che ogni esercizio abbia un gruppo muscolare assegnato</span>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🎯</span>
+          <span>Il grafico ti aiuterà a bilanciare il tuo allenamento</span>
+        </div>
+        <div class="tip" *ngIf="!exercises || exercises.length === 0">
+          <span class="tip-icon">➕</span>
+          <span>Vai alla pagina degli esercizi per aggiungerne di nuovi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

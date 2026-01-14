@@ -1,0 +1,106 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4ade80;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #86efac;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.exercise-card {
+  background: #052e16;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(74, 222, 128, 0.25);
+  margin-bottom: 22px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.exercise-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(74, 222, 128, 0.35);
+}
+
+.card-header h2 {
+  font-size: 1.5rem;
+  color: #a7f3d0;
+  margin-bottom: 10px;
+}
+
+.card-body p {
+  margin-bottom: 8px;
+  color: #e7f5e7;
+}
+
+.card-body ul {
+  padding-left: 18px;
+}
+
+.card-body li {
+  margin-bottom: 4px;
+  color: #e7f5e7;
+  font-size: 0.95rem;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  color: white;
+}
+
+.btn-danger {
+  background: #dc2626;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .exercise-card {
+    padding: 15px;
+  }
+
+  .card-body li {
+    font-size: 0.9rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

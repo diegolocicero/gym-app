@@ -1,0 +1,32 @@
+<main class="main">
+  <div class="content">
+    <div class="edit-mode editor">
+
+      <label>
+        <input type="text" placeholder="Nome scheda" [(ngModel)]="workoutName" />
+      </label>
+
+
+      <div class="exercise-list">
+        <div class="exercise-card exercise-item" *ngFor="let exercise of exercises">
+          <label>
+            <input type="checkbox" [checked]="isSelected(exercise)" (change)="toggleExercise(exercise)" />
+            
+            <span class="exercise-name">{{ exercise.name }}</span>
+
+            <span class="exercise-details small">
+              ({{ exercise.muscleGroup }} | 
+              {{ exercise.sets }}x{{ exercise.reps }} 
+               {{ exercise.weightKg || 0 }} kg)
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" (click)="saveWorkout()"> Salva Scheda</button>
+      </div>
+
+    </div>
+  </div>
+</main>

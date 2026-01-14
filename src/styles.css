@@ -1,0 +1,22 @@
+@import 'ngx-toastr/toastr';
+
+body {
+  background-image: url('assets/bg.jpg');
+  background-repeat: no-repeat;  
+  background-position: center;
+  font-family: 'Inter', sans-serif;
+  color: #e7f5e7;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: -1;
+}

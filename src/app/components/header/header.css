@@ -1,0 +1,113 @@
+.header {
+  background: #042f1f;
+  padding: 18px 20px;
+  box-shadow: 0 4px 18px rgba(74, 222, 128, 0.25);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #4ade80;
+  cursor: pointer;
+}
+
+.logo span {
+  color: #f5fdf0;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #4ade80;
+  border: 2px solid #4ade80;
+  transition: all 0.2s ease;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.nav a:hover,
+.nav a.active,
+button.active {
+  background: #4ade80;
+  color: black;
+  border-color: #4ade80;
+}
+
+button.active {
+  border: 2px solid #4ade80;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav a,
+  button.active {
+    width: 100%;
+    text-align: center;
+  }
+
+  .logo {
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 12px 15px;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .nav a,
+  button.active {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav a,
+  button.active {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
